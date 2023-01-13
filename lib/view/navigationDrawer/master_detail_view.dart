@@ -2,7 +2,9 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hotel_management_retailer/main.dart';
 import 'package:hotel_management_retailer/theme.dart';
 import 'package:hotel_management_retailer/view/home/home_page.dart';
-import 'package:hotel_management_retailer/view/room_booking/add_room.dart';
+import 'package:hotel_management_retailer/view/room_booking/add_room_booking.dart';
+import 'package:hotel_management_retailer/view/room_booking/all_booking.dart';
+import 'package:hotel_management_retailer/view/rooms/all_rooms.dart';
 import 'package:hotel_management_retailer/view/rooms/room_types.dart';
 import 'package:hotel_management_retailer/view/setting/setting.dart';
 import 'package:window_manager/window_manager.dart';
@@ -42,7 +44,7 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
     PaneItem(
       icon: const Icon(FluentIcons.bulleted_list),
       title: const Text('All Bookings'),
-      body: HomePage(),
+      body: const AllBookings(),
     ),
     PaneItem(
       icon: const Icon(FluentIcons.cloud_add),
@@ -54,7 +56,7 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
     PaneItem(
       icon: const Icon(FluentIcons.room),
       title: const Text('All Rooms'),
-      body: HomePage(),
+      body: AllRooms(),
     ),
     PaneItem(
       icon: const Icon(FluentIcons.column_left_two_thirds),

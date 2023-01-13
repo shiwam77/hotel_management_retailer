@@ -7,14 +7,14 @@ import 'package:responsive_builder/responsive_builder.dart';
 enum SampleItem { Edit, Delete }
 
 
-class RoomTypes extends StatefulWidget {
-  const RoomTypes({Key? key}) : super(key: key);
+class AllBookings extends StatefulWidget {
+  const AllBookings({Key? key}) : super(key: key);
 
   @override
-  State<RoomTypes> createState() => _RoomTypesState();
+  State<AllBookings> createState() => _AllBookingsState();
 }
 
-class _RoomTypesState extends State<RoomTypes> {
+class _AllBookingsState extends State<AllBookings> {
 
   List<String> status = <String>[
     'Active',
@@ -27,19 +27,19 @@ class _RoomTypesState extends State<RoomTypes> {
     return MaterialApp(
       home: Scaffold(
         body: fluent.ScaffoldPage.scrollable(
-          header: fluent.PageHeader(title: Text('Room Type'),
+          header: fluent.PageHeader(title: Text('Booking Lists'),
               commandBar: GestureDetector(
                 onTap: () async{
                   showContentDialog(context);
                 },
                 child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(8))
-                    ),
-          ),
+                  height: 30,
+                  width: 30,
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(8))
+                  ),
+                ),
               )),
           children:  [
             Padding(
@@ -52,7 +52,7 @@ class _RoomTypesState extends State<RoomTypes> {
                 ),
                 child: ScreenTypeLayout.builder(
                   mobile: (BuildContext context) => mblView(),
-                  tablet: (BuildContext context) => tabletView(),
+                  tablet: (BuildContext context) => deskTopView(),
                   desktop: (BuildContext context) => deskTopView(),
 
                 ),
@@ -94,29 +94,29 @@ class _RoomTypesState extends State<RoomTypes> {
                   ),
 
                   SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
+                      width: 80,child: Text("ID",style: const TextStyle(fontSize: 12),)),
 
 
                   SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
+                      width: 80,child: Text("Customer",style: const TextStyle(fontSize: 12),)),
 
 
                   SizedBox(
-                      width: 50,child: Text("Rent (Basic)",style: const TextStyle(fontSize: 12),)),
+                      width: 80,child: Text("Package",style: const TextStyle(fontSize: 12),)),
 
 
                   SizedBox(
-                      width: 50,child: Text("Code",style: const TextStyle(fontSize: 12),)),
+                      width: 80,child: Text("Booking",style: const TextStyle(fontSize: 12),)),
 
                   SizedBox(
-                      width:50,child: Text("Rooms Count",style: const TextStyle(fontSize: 12),)),
+                      width:80,child: Text("Types",style: const TextStyle(fontSize: 12),)),
 
                   SizedBox(
-                    width: 150,
-                    child: Text("Types",style: const TextStyle(fontSize: 12),),),
+                    width: 100,
+                    child: Text("Arive",style: const TextStyle(fontSize: 12),),),
 
                   SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
+                      width: 80,child: Text("Payment",style: TextStyle(fontSize: 12),)),
 
                   Icon(Icons.more_horiz_outlined,color: Colors.black38,),
                 ],
@@ -148,41 +148,38 @@ class _RoomTypesState extends State<RoomTypes> {
                         ),
 
                         SizedBox(
-                            width: 50,
+                            width: 80,
                             child: Text("0$index",style: const TextStyle(fontSize: 12),)),
 
 
                         SizedBox(
-                            width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
+                            width: 80,
+                            child: Text("Shiwam karn",style: const TextStyle(fontSize: 12),)),
 
 
                         SizedBox(
-                            width: 50,
-                            child: Text("Rs 2000",style: const TextStyle(fontSize: 12),)),
+                            width: 80,
+                            child: Text("Starter",style: const TextStyle(fontSize: 12),)),
 
 
                         SizedBox(
-                            width: 50,
-                            child: Text("SR",style: const TextStyle(fontSize: 12),)),
+                            width: 80,
+                            child: Text("Active",style: const TextStyle(fontSize: 12),)),
 
                         SizedBox(
-                            width: 50,
-                            child: Text("60",style: const TextStyle(fontSize: 12),)),
+                            width: 80,
+                            child: Text("Super Delux",style: const TextStyle(fontSize: 12),)),
 
                         SizedBox(
-                          width: 150,
-                          child: Row(
-                            children: [
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,)
-                            ],),),
+                            width: 100,
+                            child: Text("10th feb 2022",style: const TextStyle(fontSize: 12),)),
 
                         SizedBox(
-                            width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
+                            width: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text("Paid",style: const TextStyle(fontSize: 12),),
+                            )),
 
                         SizedBox(
                           width: 50,
@@ -253,15 +250,15 @@ class _RoomTypesState extends State<RoomTypes> {
                   ),
 
                   SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
+                      width: 50,child: Text("ID",style: const TextStyle(fontSize: 12),)),
 
 
                   SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
+                      width: 50,child: Text("Customer",style: const TextStyle(fontSize: 12),)),
 
 
                   SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
+                      width: 50,child: Text("Payment",style: TextStyle(fontSize: 12),)),
 
                   Icon(Icons.more_horiz_outlined,color: Colors.black38,),
                 ],
@@ -299,12 +296,12 @@ class _RoomTypesState extends State<RoomTypes> {
 
                         SizedBox(
                             width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
+                            child: Text("Shiwam karn",style: const TextStyle(fontSize: 12),)),
 
 
                         SizedBox(
                             width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
+                            child: Text("Paid",style: const TextStyle(fontSize: 12),)),
 
 
                         SizedBox(
@@ -343,168 +340,14 @@ class _RoomTypesState extends State<RoomTypes> {
     );
   }
 
-  Widget tabletView(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          fit:FlexFit.loose,
-          child: Container(
-            height: 50,
-            decoration:   BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(width: 1.0, color: Color(0xff121212).withOpacity(.12)),
-                bottom: BorderSide(width: 1.0, color:Color(0xff121212).withOpacity(.12)),
-              ),
 
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  fluent.Checkbox(
-                      checked: false,
-                      onChanged: (value){}
-                  ),
-
-                  SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Rent (Basic)",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Code",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                      width:50,child: Text("Rooms Count",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                    width: 100,
-                    child: Text("Types",style: const TextStyle(fontSize: 12),),),
-
-                  SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
-
-                  Icon(Icons.more_horiz_outlined,color: Colors.black38,),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Flexible(
-            fit:FlexFit.loose,
-            child: ListView.separated(
-              separatorBuilder:(context,index){
-                return  const Divider();
-              },
-              itemCount: 7,
-              itemBuilder: (context,index){
-                return   Container(
-                  height: 50,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        fluent.Checkbox(
-                            checked: true,
-                            onChanged: (value){}
-                        ),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("0$index",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Rs 2000",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("SR",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("60",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,)
-                            ],),),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 50,
-                          child: PopupMenuButton<SampleItem>(
-                            initialValue: selectedMenu,
-                            // Callback that sets the selected popup menu item.
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedMenu = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Edit,
-                                onTap: () async {
-                                  showContentDialog(context);
-                                },
-                                child: Text('Edit'),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Delete,
-                                child: Text('Delete'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
-        )
-      ],
-    );
-  }
 
   void showContentDialog(BuildContext context) async {
-      await showDialog<String>(
+    await showDialog<String>(
       context: context,
       builder: (context) => Container(
         color:Colors.transparent,
-       alignment: Alignment.center,
+        alignment: Alignment.center,
         child: Container(
           height: 400,
           width: 700,
@@ -516,13 +359,13 @@ class _RoomTypesState extends State<RoomTypes> {
           child: Stack(
             children: [
               Positioned(
-                right: 24,
+                  right: 24,
                   top: 24,
                   child: GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                  child: Icon(Icons.clear,size: 25,))),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.clear,size: 25,))),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,26 +406,26 @@ class _RoomTypesState extends State<RoomTypes> {
                             child:  dropDown(label: "Gender",selectedValue: status[0],items: status,onChange: (value){}),),
                         ],),
                       const SizedBox(height: 20,),
-                     Padding(
-                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                       child: Row(
-                         children: [
-                           fluent.FilledButton(
-                             child: const Text('Add Room Type'),
-                             onPressed: () => Navigator.pop(context, 'User canceled dialog'),
-                           ),
-                           SizedBox(width: 50,),
-                           fluent.Button(
-                             child: const Text('Cancel'),
-                             onPressed: () {
-                               Navigator.pop(context, 'User deleted file');
-                               // Delete file here
-                             },
-                           ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            fluent.FilledButton(
+                              child: const Text('Add Room Type'),
+                              onPressed: () => Navigator.pop(context, 'User canceled dialog'),
+                            ),
+                            SizedBox(width: 50,),
+                            fluent.Button(
+                              child: const Text('Cancel'),
+                              onPressed: () {
+                                Navigator.pop(context, 'User deleted file');
+                                // Delete file here
+                              },
+                            ),
 
-                         ],
-                       ),
-                     )
+                          ],
+                        ),
+                      )
 
                     ],
                   )
