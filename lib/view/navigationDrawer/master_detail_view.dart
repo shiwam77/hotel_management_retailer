@@ -2,6 +2,9 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hotel_management_retailer/main.dart';
 import 'package:hotel_management_retailer/theme.dart';
 import 'package:hotel_management_retailer/view/home/home_page.dart';
+import 'package:hotel_management_retailer/view/report/booking_report.dart';
+import 'package:hotel_management_retailer/view/report/expense.dart';
+import 'package:hotel_management_retailer/view/report/stock.dart';
 import 'package:hotel_management_retailer/view/room_booking/add_room_booking.dart';
 import 'package:hotel_management_retailer/view/room_booking/all_booking.dart';
 import 'package:hotel_management_retailer/view/rooms/all_rooms.dart';
@@ -56,7 +59,7 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
     PaneItem(
       icon: const Icon(FluentIcons.room),
       title: const Text('All Rooms'),
-      body: AllRooms(),
+      body: const AllRooms(),
     ),
     PaneItem(
       icon: const Icon(FluentIcons.column_left_two_thirds),
@@ -70,11 +73,48 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
       title: const Text('All Package'),
       body: HomePage(),
     ),
+    PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('Add Package'),
+      body: HomePage(),
+    ),
 
+    PaneItemHeader(header: const Text('Product')),
+    PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('Explore Product'),
+      body: HomePage(),
+    ),
 
+    PaneItemHeader(header: const Text('Reports')),
+    PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('Stock'),
+      body: StockList(),
+    ),
+    PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('Expense'),
+      body: ExpenseList(),
+    ),PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('Booking'),
+      body: BookingReport(),
+    ),
+    PaneItemHeader(header: const Text('Payment')),
+    PaneItem(
+      icon: const Icon(FluentIcons.money),
+      title: const Text('Payment Method'),
+      body: HomePage(),
+    ),
   ];
   final List<NavigationPaneItem> footerItems = [
     PaneItemSeparator(),
+    PaneItem(
+      icon: const Icon(FluentIcons.message),
+      title: const Text('Supports'),
+      body:  HomePage(),
+    ),
     PaneItem(
       icon: const Icon(FluentIcons.settings),
       title: const Text('Settings'),
