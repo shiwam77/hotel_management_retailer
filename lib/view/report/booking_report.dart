@@ -49,6 +49,7 @@ class _BookingReportState extends State<BookingReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Booking Reports',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+
                 ],
               ),
             ),

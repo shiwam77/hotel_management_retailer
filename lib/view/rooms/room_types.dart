@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
+import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:horizontal_data_table/refresh/hdt_refresh_controller.dart';
 import 'package:hotel_management_retailer/theme.dart';
+import 'package:hotel_management_retailer/view/report/data.dart';
 import 'package:hotel_management_retailer/widgets/widget.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -21,480 +26,242 @@ class _RoomTypesState extends State<RoomTypes> {
     'Inactive',
   ];
   SampleItem? selectedMenu;
+  final HDTRefreshController _hdtRefreshController = HDTRefreshController();
+  final User user = User();
+
+  @override
+  void initState() {
+    user.initData(100);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: fluent.ScaffoldPage.scrollable(
-          header: fluent.PageHeader(title: Text('Room Type'),
-              commandBar: GestureDetector(
-                onTap: () async{
-                  showContentDialog(context);
-                },
-                child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(8))
-                    ),
-          ),
-              )),
-          children:  [
+    return Scaffold(
+      body: ScrollConfiguration(
+        ///since pull to refresh only works on drag action
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+          },
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 24,),
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                height: 600,
-                decoration:  BoxDecoration(
-                    color:Colors.white,
-                    border: Border.all(color: Colors.black.withAlpha(40))
-                ),
-                child: ScreenTypeLayout.builder(
-                  mobile: (BuildContext context) => mblView(),
-                  tablet: (BuildContext context) => tabletView(),
-                  desktop: (BuildContext context) => deskTopView(),
-
-                ),
+              padding:  const EdgeInsets.symmetric(horizontal: 24,),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Room Type',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+                  GestureDetector(
+                    onTap: () async {
+                      showContentDialog(context);
+                    },
+                    child: Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.indigo,
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.add,size: 20,color: Colors.white,),
+                    ),
+                  )
+                ],
               ),
-            )
+            ),
+            SizedBox(height: 12,),
+            Expanded(
+              child : HorizontalDataTable(
+                leftHandSideColumnWidth: 100,
+                rightHandSideColumnWidth: 1200,
+                isFixedHeader: true,
+                headerWidgets: _getTitleWidget(),
+                leftSideItemBuilder: _generateFirstColumnRow,
+                rightSideItemBuilder: _generateRightHandSideColumnRow,
+                itemCount: user.userInfo.length,
+                rowSeparatorWidget: const Divider(
+                  color: Colors.black54,
+                  height: 1.0,
+                  thickness: 0.0,
+                ),
+                leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
+                rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
+                enablePullToRefresh: true,
+                refreshIndicator: const ClassicHeader(),
+                fixedSidePlaceHolderRefreshIndicator: const PlaceholderHeader(),
+                refreshIndicatorHeight: 60,
+                onRefresh: () async {
+                  debugPrint('onRefresh');
+                  //Do sth
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  _hdtRefreshController.refreshCompleted();
+                },
+                enablePullToLoadNewData: true,
+                loadIndicator: const ClassicFooter(),
+                fixedSidePlaceHolderLoadIndicator: const PlaceholderFooter(),
+                onLoad: () async {
+                  debugPrint('onLoad');
+                  //Do sth
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  _hdtRefreshController.loadComplete();
+                },
+                htdRefreshController: _hdtRefreshController,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget deskTopView(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          fit:FlexFit.loose,
-          child: Container(
-            height: 50,
-            decoration:   BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(width: 1.0, color: Color(0xff121212).withOpacity(.12)),
-                bottom: BorderSide(width: 1.0, color:Color(0xff121212).withOpacity(.12)),
-              ),
-
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  fluent.Checkbox(
-                      checked: false,
-                      onChanged: (value){}
-                  ),
-
-                  SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Rent (Basic)",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Code",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                      width:50,child: Text("Rooms Count",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                    width: 150,
-                    child: Text("Types",style: const TextStyle(fontSize: 12),),),
-
-                  SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
-
-                  Icon(Icons.more_horiz_outlined,color: Colors.black38,),
-                ],
-              ),
-            ),
-          ),
+  List<Widget> _getTitleWidget() {
+    return [
+      Container(
+        width: 100,
+        height: 56,
+        alignment: Alignment.center,
+        child: fluent.Checkbox(
+            checked: false,
+            onChanged: (value){}
         ),
-        Flexible(
-            fit:FlexFit.loose,
-            child: ListView.separated(
-              separatorBuilder:(context,index){
-                return  const Divider();
-              },
-              itemCount: 7,
-              itemBuilder: (context,index){
-                return   Container(
-                  height: 50,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+      ),
+      _getTitleItemWidget('Id', 100),
+      _getTitleItemWidget('Name', 150),
+      _getTitleItemWidget('Rent (Basic)', 150),
+      _getTitleItemWidget('Short Code', 150),
+      _getTitleItemWidget('No Of Room', 150),
+      _getTitleItemWidget('Type', 150),
+      _getTitleItemWidget('Status', 150),
+      Container(
+        width: 100,
+        height: 56,
+        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+        alignment: Alignment.centerLeft,
+        child:  Icon(Icons.more_horiz_outlined,color: Colors.black38,),
+      ),
+    ];
+  }
 
-                        fluent.Checkbox(
-                            checked: true,
-                            onChanged: (value){}
-                        ),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("0$index",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Rs 2000",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("SR",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("60",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 150,
-                          child: Row(
-                            children: [
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,)
-                            ],),),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 50,
-                          child: PopupMenuButton<SampleItem>(
-                            initialValue: selectedMenu,
-                            // Callback that sets the selected popup menu item.
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedMenu = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Edit,
-                                onTap: () async {
-                                  showContentDialog(context);
-                                },
-                                child: Text('Edit'),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Delete,
-                                child: Text('Delete'),
-                                onTap: () async {
-
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
-        )
-      ],
+  Widget _getTitleItemWidget(String label, double width) {
+    return Container(
+      width: width,
+      height: 56,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+      child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
     );
   }
 
-  Widget mblView(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          fit:FlexFit.loose,
-          child: Container(
-            height: 50,
-            decoration:   BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(width: 1.0, color: Color(0xff121212).withOpacity(.12)),
-                bottom: BorderSide(width: 1.0, color:Color(0xff121212).withOpacity(.12)),
-              ),
-
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  fluent.Checkbox(
-                      checked: false,
-                      onChanged: (value){}
-                  ),
-
-                  SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
-
-                  Icon(Icons.more_horiz_outlined,color: Colors.black38,),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Flexible(
-            fit:FlexFit.loose,
-            child: ListView.separated(
-              separatorBuilder:(context,index){
-                return  const Divider();
-              },
-              itemCount: 7,
-              itemBuilder: (context,index){
-                return   Container(
-                  height: 50,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        fluent.Checkbox(
-                            checked: true,
-                            onChanged: (value){}
-                        ),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("0$index",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                          width: 50,
-                          child: PopupMenuButton<SampleItem>(
-                            initialValue: selectedMenu,
-                            // Callback that sets the selected popup menu item.
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedMenu = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Edit,
-                                onTap: () async {
-                                  showContentDialog(context);
-                                },
-                                child: Text('Edit'),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Delete,
-                                child: Text('Delete'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
-        )
-      ],
+  Widget _generateFirstColumnRow(BuildContext context, int index) {
+    return  Container(
+      width: 50,
+      height: 56,
+      alignment: Alignment.center,
+      child: fluent.Checkbox(
+          checked: false,
+          onChanged: (value){}
+      ),
     );
   }
 
-  Widget tabletView(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          fit:FlexFit.loose,
-          child: Container(
-            height: 50,
-            decoration:   BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(width: 1.0, color: Color(0xff121212).withOpacity(.12)),
-                bottom: BorderSide(width: 1.0, color:Color(0xff121212).withOpacity(.12)),
+  Widget _generateRightHandSideColumnRow(BuildContext context, int index) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 100,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("01"),
+        ),
+
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("Single Room"),
+        ),
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("29.99USD"),
+        ),
+
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("SR"),
+        ),
+
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child:Text("60"),
+        ),
+
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Icon(Icons.star,color: Colors.amber,),
+              Icon(Icons.star,color: Colors.amber,),
+              Icon(Icons.star,color: Colors.amber,),
+              Icon(Icons.star,color: Colors.amber,)
+            ],),
+        ),
+        Container(
+          width: 150,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("Active"),
+        ),
+
+        Container(
+          width: 100,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: PopupMenuButton<SampleItem>(
+            initialValue: selectedMenu,
+            // Callback that sets the selected popup menu item.
+            onSelected: (SampleItem item) {
+              setState(() {
+                selectedMenu = item;
+              });
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+              PopupMenuItem<SampleItem>(
+                value: SampleItem.Edit,
+                onTap: () async {
+                  showContentDialog(context);
+                },
+                child: Text('Edit'),
               ),
+              PopupMenuItem<SampleItem>(
+                value: SampleItem.Delete,
+                child: Text('Delete'),
+                onTap: () async {
 
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  fluent.Checkbox(
-                      checked: false,
-                      onChanged: (value){}
-                  ),
-
-                  SizedBox(
-                      width: 50,child: Text("##",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Name",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Rent (Basic)",style: const TextStyle(fontSize: 12),)),
-
-
-                  SizedBox(
-                      width: 50,child: Text("Code",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                      width:50,child: Text("Rooms Count",style: const TextStyle(fontSize: 12),)),
-
-                  SizedBox(
-                    width: 100,
-                    child: Text("Types",style: const TextStyle(fontSize: 12),),),
-
-                  SizedBox(
-                      width: 50,child: Text("Status",style: TextStyle(fontSize: 12),)),
-
-                  Icon(Icons.more_horiz_outlined,color: Colors.black38,),
-                ],
+                },
               ),
-            ),
+            ],
           ),
         ),
-        Flexible(
-            fit:FlexFit.loose,
-            child: ListView.separated(
-              separatorBuilder:(context,index){
-                return  const Divider();
-              },
-              itemCount: 7,
-              itemBuilder: (context,index){
-                return   Container(
-                  height: 50,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        fluent.Checkbox(
-                            checked: true,
-                            onChanged: (value){}
-                        ),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("0$index",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Single",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("Rs 2000",style: const TextStyle(fontSize: 12),)),
-
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("SR",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("60",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            children: [
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,),
-                              Icon(Icons.star,color: Colors.amber,)
-                            ],),),
-
-                        SizedBox(
-                            width: 50,
-                            child: Text("active",style: const TextStyle(fontSize: 12),)),
-
-                        SizedBox(
-                          width: 50,
-                          child: PopupMenuButton<SampleItem>(
-                            initialValue: selectedMenu,
-                            // Callback that sets the selected popup menu item.
-                            onSelected: (SampleItem item) {
-                              setState(() {
-                                selectedMenu = item;
-                              });
-                            },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Edit,
-                                onTap: () async {
-                                  showContentDialog(context);
-                                },
-                                child: Text('Edit'),
-                              ),
-                              PopupMenuItem<SampleItem>(
-                                value: SampleItem.Delete,
-                                child: Text('Delete'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
-        )
       ],
     );
   }

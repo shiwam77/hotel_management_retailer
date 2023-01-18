@@ -54,7 +54,22 @@ class _AllRoomsState extends State<AllRooms> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Booking Reports',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+                  Text('Room List',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+                  GestureDetector(
+                    onTap: () async {
+                      showContentDialog(context);
+                    },
+                    child: Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.indigo,
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.add,size: 20,color: Colors.white,),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+import 'package:hotel_management_retailer/widgets/widget.dart';
 
 import '../room_booking/all_booking.dart';
 import 'data.dart';
@@ -25,7 +26,11 @@ class _StockListState
   final HDTRefreshController _hdtRefreshController = HDTRefreshController();
   final User user = User();
   SampleItem? selectedMenu;
-
+  List<String> status = <String>[
+    'Available',
+    'Low',
+    'Out Of Stock'
+  ];
 
 
   @override
@@ -54,6 +59,21 @@ class _StockListState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Stock Details',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+                  GestureDetector(
+                    onTap: () async {
+                      showContentDialog(context);
+                    },
+                    child: Container(
+                      height: 25,
+                      width: 25,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.indigo,
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(Icons.add,size: 20,color: Colors.white,),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -231,5 +251,93 @@ class _StockListState
         ),
       ],
     );
+  }
+
+  void showContentDialog(BuildContext context) async {
+    await showDialog<String?>(
+      context: context,
+      builder: (context) => Container(
+        color:Colors.transparent,
+        alignment: Alignment.center,
+        child: Container(
+          height: 400,
+          width: 700,
+          decoration:  BoxDecoration(
+              color:Colors.white,
+              border: Border.all(color: Colors.black.withAlpha(40),),
+              borderRadius: BorderRadius.circular(20)
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                  right: 24,
+                  top: 24,
+                  child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.clear,size: 25,))),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24,left: 16),
+                    child:  Text('Add Stock Details',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                              fit: FlexFit.loose,
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Product Name')),
+                          Flexible(
+                              fit: FlexFit.loose,
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Quantity')),
+                        ],),
+                      Row(
+                        children: [
+                          Flexible(
+                              fit: FlexFit.loose,
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Price')),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child:  dropDown(label: "Air Conditon",selectedValue: status[0],items: status,onChange: (value){}),),
+                        ],),
+                      const SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            fluent.FilledButton(
+                              child: const Text('Add Stock'),
+                              onPressed: () => Navigator.pop(context, 'User canceled dialog'),
+                            ),
+                            SizedBox(width: 50,),
+                            fluent.Button(
+                              child: const Text('Cancel'),
+                              onPressed: () {
+                                Navigator.pop(context, 'User deleted file');
+                                // Delete file here
+                              },
+                            ),
+
+                          ],
+                        ),
+                      )
+
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+    setState(() {});
   }
 }
