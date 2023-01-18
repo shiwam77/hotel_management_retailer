@@ -1,32 +1,34 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
+
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
+import 'package:hotel_management_retailer/view/report/data.dart';
+import 'package:hotel_management_retailer/view/room_booking/all_booking.dart';
 import 'package:hotel_management_retailer/widgets/widget.dart';
 
-import '../room_booking/all_booking.dart';
-import 'data.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 
 
-
-class ExpenseList extends StatefulWidget {
-  const ExpenseList({
+class ExploreFood extends StatefulWidget {
+  const ExploreFood({
     Key? key,
   }) : super(key: key);
 
 
   @override
-  State<ExpenseList> createState() =>
-      _ExpenseListState();
+  State<ExploreFood> createState() =>
+      _ExploreFoodState();
 }
 
-class _ExpenseListState
-    extends State<ExpenseList> {
+class _ExploreFoodState extends State<ExploreFood> {
   final HDTRefreshController _hdtRefreshController = HDTRefreshController();
   final User user = User();
   SampleItem? selectedMenu;
-
+  List<String> status = <String>[
+    'Yes',
+    'No'
+  ];
 
   @override
   void initState() {
@@ -47,13 +49,13 @@ class _ExpenseListState
         ),
         child: Column(
           children: [
-            SizedBox(height: 24,),
+            const SizedBox(height: 24,),
             Padding(
               padding:  const EdgeInsets.symmetric(horizontal: 24,),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Expenses List',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
+                  const Text('Explore & Add Product',style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),
                   GestureDetector(
                     onTap: () async {
                       showContentDialog(context);
@@ -61,7 +63,7 @@ class _ExpenseListState
                     child: Container(
                       height: 25,
                       width: 25,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Colors.indigo,
                       ),
@@ -72,9 +74,9 @@ class _ExpenseListState
                 ],
               ),
             ),
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
             Expanded(
-              child: HorizontalDataTable(
+              child : HorizontalDataTable(
                 leftHandSideColumnWidth: 100,
                 rightHandSideColumnWidth: 1200,
                 isFixedHeader: true,
@@ -128,11 +130,12 @@ class _ExpenseListState
             onChanged: (value){}
         ),
       ),
-      _getTitleItemWidget('Id', 100),
-      _getTitleItemWidget('Supplier Name', 200),
-      _getTitleItemWidget('Description', 200),
-      _getTitleItemWidget('Date', 200),
-      _getTitleItemWidget('Amount', 200),
+      _getTitleItemWidget('#', 100),
+      _getTitleItemWidget('Food Name', 200),
+      _getTitleItemWidget('Half Price Price', 200),
+      _getTitleItemWidget('Full Plate Price', 200),
+      _getTitleItemWidget('Buy one get one', 200),
+
       Container(
         width: 100,
         height: 56,
@@ -173,21 +176,7 @@ class _ExpenseListState
           height: 56,
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.centerLeft,
-          child: Text("#565601"),
-        ),
-        Container(
-          width: 200,
-          height: 56,
-          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-          child: Text("XYY Enterprise"),
-        ),
-        Container(
-          width: 200,
-          height: 56,
-          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-          alignment: Alignment.centerLeft,
-          child: Text("Internet Bill"),
+          child: Text("565601"),
         ),
 
         Container(
@@ -195,7 +184,7 @@ class _ExpenseListState
           height: 56,
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.centerLeft,
-          child: Text("01 Jan 2021"),
+          child: Text("Momos"),
         ),
 
         Container(
@@ -203,7 +192,22 @@ class _ExpenseListState
           height: 56,
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           alignment: Alignment.centerLeft,
-          child:Text("Rs1229.99"),
+          child:Text("Rs 60"),
+        ),
+
+        Container(
+          width: 200,
+          height: 56,
+          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          alignment: Alignment.centerLeft,
+          child: Text("Rs 120"),
+        ),
+
+        Container(
+          width: 200,
+          height: 56,
+          alignment: Alignment.centerLeft,
+          child:Text("No"),
         ),
 
         Container(
@@ -271,7 +275,7 @@ class _ExpenseListState
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 24,left: 16),
-                    child:  Text('Add Expenses',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
+                    child:  Text('Add Stock Details',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -281,19 +285,19 @@ class _ExpenseListState
                         children: [
                           Flexible(
                               fit: FlexFit.loose,
-                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Supplier Name')),
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Food Name')),
                           Flexible(
                               fit: FlexFit.loose,
-                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Description')),
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Half Plate Price')),
                         ],),
                       Row(
                         children: [
                           Flexible(
                               fit: FlexFit.loose,
-                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Amount')),
+                              child: textField(controller: TextEditingController(),onChange: (value){}, label: 'Full Plate Price')),
                           Flexible(
                             fit: FlexFit.loose,
-                            child: datePicker(label: "Date",onChanged: (time){}),),
+                            child:  dropDown(label: "Buy one get one",selectedValue: status[0],items: status,onChange: (value){}),),
                         ],),
                       const SizedBox(height: 20,),
                       Padding(
@@ -328,5 +332,4 @@ class _ExpenseListState
     );
     setState(() {});
   }
-
 }

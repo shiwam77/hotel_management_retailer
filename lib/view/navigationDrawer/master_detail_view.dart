@@ -1,4 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:hotel_management_retailer/billing/add_billing.dart';
+import 'package:hotel_management_retailer/explore_food/explore_food.dart';
 import 'package:hotel_management_retailer/main.dart';
 import 'package:hotel_management_retailer/theme.dart';
 import 'package:hotel_management_retailer/view/home/home_page.dart';
@@ -43,6 +45,19 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
       body: const HomePage(),
     ),
 
+    PaneItemHeader(header: const Text('Billing')),
+    PaneItem(
+      icon: const Icon(FluentIcons.bulleted_list),
+      title: const Text('All Billing'),
+      body: const AllBookings(),
+    ),
+    PaneItem(
+      icon: const Icon(FluentIcons.bill),
+      title: const Text('Create Billing'),
+      body: const CreateBilling(),
+    ),
+
+
     PaneItemHeader(header: const Text('Booking')),
     PaneItem(
       icon: const Icon(FluentIcons.bulleted_list),
@@ -69,31 +84,31 @@ class _MasterDetailViewState extends State<MasterDetailView> with WindowListener
 
     PaneItemHeader(header: const Text('Package')),
     PaneItem(
-      icon: const Icon(FluentIcons.bulleted_list),
+      icon: const Icon(FluentIcons.packages),
       title: const Text('All Package'),
       body: HomePage(),
     ),
     PaneItem(
-      icon: const Icon(FluentIcons.bulleted_list),
+      icon: const Icon(FluentIcons.provisioning_package),
       title: const Text('Add Package'),
       body: HomePage(),
     ),
 
     PaneItemHeader(header: const Text('Product')),
     PaneItem(
-      icon: const Icon(FluentIcons.bulleted_list),
-      title: const Text('Explore Product'),
-      body: HomePage(),
+      icon: const Icon(FluentIcons.preview_side_by_side),
+      title: const Text('Explore Food'),
+      body: ExploreFood(),
     ),
 
     PaneItemHeader(header: const Text('Reports')),
     PaneItem(
-      icon: const Icon(FluentIcons.bulleted_list),
+      icon: const Icon(FluentIcons.stack),
       title: const Text('Stock'),
       body: StockList(),
     ),
     PaneItem(
-      icon: const Icon(FluentIcons.bulleted_list),
+      icon: const Icon(FluentIcons.export),
       title: const Text('Expense'),
       body: ExpenseList(),
     ),PaneItem(

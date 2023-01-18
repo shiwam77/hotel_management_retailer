@@ -260,7 +260,7 @@ class _StockListState
         color:Colors.transparent,
         alignment: Alignment.center,
         child: Container(
-          height: 400,
+          height: 300,
           width: 700,
           decoration:  BoxDecoration(
               color:Colors.white,

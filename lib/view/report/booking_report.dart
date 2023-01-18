@@ -53,7 +53,7 @@ class _BookingReportState extends State<BookingReport> {
                 ],
               ),
             ),
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
             Expanded(
               child : HorizontalDataTable(
                 leftHandSideColumnWidth: 100,
